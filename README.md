@@ -2,7 +2,7 @@
 
 ### Room
 ### Coroutine
-### DataBinding
+### LiveData DataBinding
 ### RecyclerView
 ### Navigation
 ### Migration
