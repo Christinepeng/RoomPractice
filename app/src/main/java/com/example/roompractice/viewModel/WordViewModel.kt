@@ -5,35 +5,41 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.roompractice.model.Word
-import com.example.roompractice.model.WordDao
 import com.example.roompractice.model.WordDatabase
+import com.example.roompractice.model.WordRepository
 import kotlinx.coroutines.launch
 
 class WordViewModel(application: Application) : AndroidViewModel(application) {
-    private val wordDao: WordDao = WordDatabase.getDatabase(application).wordDao()
-    val allWordsLive: LiveData<List<Word>> = wordDao.getAllWordsLive()
+    private val repository: WordRepository
+    val allWordsLive: LiveData<List<Word>>
+
+    init {
+        val wordDao = WordDatabase.getDatabase(application).wordDao()
+        repository = WordRepository(wordDao)
+        allWordsLive = repository.getAllWords()
+    }
 
     fun insertWords(word1: Word, word2: Word) {
         viewModelScope.launch {
-            wordDao.insertWords(word1, word2)
+            repository.insertWords(word1, word2)
         }
     }
 
     fun updateWord(word: Word) {
         viewModelScope.launch {
-            wordDao.updateWords(word)
+            repository.updateWord(word)
         }
     }
 
     fun deleteAllWords() {
         viewModelScope.launch {
-            wordDao.deleteAllWords()
+            repository.deleteAllWords()
         }
     }
 
     fun deleteWord(word: Word) {
         viewModelScope.launch {
-            wordDao.deleteWords(word)
+            repository.deleteWord(word)
         }
     }
 }

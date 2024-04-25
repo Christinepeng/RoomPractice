@@ -5,17 +5,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.example.roompractice.R
 import com.example.roompractice.model.Word
-import com.example.roompractice.model.WordDao
-import com.example.roompractice.model.WordDatabase
 import com.example.roompractice.databinding.ActivityMainBinding
 import com.example.roompractice.viewModel.WordViewModel
-import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
