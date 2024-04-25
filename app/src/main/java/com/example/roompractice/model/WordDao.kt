@@ -1,12 +1,12 @@
-package com.example.roompractice
+package com.example.roompractice.model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.example.roompractice.model.Word
 
 @Dao
 interface WordDao {

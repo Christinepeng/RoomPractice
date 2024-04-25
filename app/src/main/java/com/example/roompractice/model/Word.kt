@@ -1,4 +1,4 @@
-package com.example.roompractice
+package com.example.roompractice.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

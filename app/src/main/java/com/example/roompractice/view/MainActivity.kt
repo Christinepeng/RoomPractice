@@ -1,24 +1,27 @@
-package com.example.roompractice
+package com.example.roompractice.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import com.example.roompractice.R
+import com.example.roompractice.model.Word
+import com.example.roompractice.model.WordDao
+import com.example.roompractice.model.WordDatabase
 import com.example.roompractice.databinding.ActivityMainBinding
+import com.example.roompractice.viewModel.WordViewModel
 import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    lateinit var wordDao: WordDao
-    lateinit var wordDatabase: WordDatabase
-    lateinit var allWordsLive: LiveData<List<Word>>
+    private lateinit var viewModel: WordViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,41 +32,28 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        wordDatabase = Room.databaseBuilder(this, WordDatabase::class.java, "word_database")
-            .allowMainThreadQueries()
-            .build()
+        viewModel = ViewModelProvider(this).get(WordViewModel::class.java)
 
-        wordDao = wordDatabase.wordDao()
-        allWordsLive = wordDao.getAllWordsLive()
-        allWordsLive.observe(this) {words ->
+        viewModel.allWordsLive.observe(this) {words ->
             binding.textView.text = words.joinToString(separator = "") { "${it.id} : ${it.word} = ${it.chineseMeaning}\n" }
         }
 
         binding.buttonInsert.setOnClickListener {
-            lifecycleScope.launch {
-                val word1 = Word(word = "Hello", chineseMeaning = "你好")
-                val word2 = Word(word = "World", chineseMeaning = "世界")
-                wordDao.insertWords(word1, word2)
-            }
+            viewModel.insertWords(
+                Word(word = "Hello", chineseMeaning = "你好"),
+                Word(word = "World", chineseMeaning = "世界")
+            )
         }
         binding.buttonUpdate.setOnClickListener {
-            lifecycleScope.launch {
-                val word1 = Word(word = "Snoopy", chineseMeaning = "史努比")
-                word1.id = 10
-                wordDao.updateWords(word1)
-            }
+            val word = Word(word = "Snoopy", chineseMeaning = "史努比").apply { id = 270 }
+            viewModel.updateWord(word)
         }
         binding.buttonClear.setOnClickListener {
-            lifecycleScope.launch {
-                wordDao.deleteAllWords()
-            }
+            viewModel.deleteAllWords()
         }
         binding.buttonDelete.setOnClickListener {
-            lifecycleScope.launch {
-                val word1 = Word(word = "Snoopy", chineseMeaning = "史努比")
-                word1.id = 10
-                wordDao.deleteWords(word1)
-            }
+            val word = Word(word = "Snoopy", chineseMeaning = "史努比").apply { id = 270 }
+            viewModel.deleteWord(word)
         }
     }
 }
