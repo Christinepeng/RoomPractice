@@ -22,7 +22,8 @@ class MyAdapter() : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_normal, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_card, parent, false)
+//        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_normal, parent, false)
         return MyViewHolder(view)
     }
 
