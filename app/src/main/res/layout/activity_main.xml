@@ -12,24 +12,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="476dp" />
+        app:layout_constraintGuide_begin="585dp" />
 
-    <ScrollView
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="24sp"
-            android:paddingStart="20dp"/>
-    </ScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonInsert"

@@ -19,9 +19,9 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
         allWordsLive = repository.getAllWords()
     }
 
-    fun insertWords(word1: Word, word2: Word) {
+    fun insertWords(word: Word) {
         viewModelScope.launch {
-            repository.insertWords(word1, word2)
+            repository.insertWords(word)
         }
     }
 

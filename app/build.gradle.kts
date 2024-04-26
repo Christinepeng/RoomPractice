@@ -51,21 +51,19 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Room
-//    implementation(libs.androidx.room.runtime)
-//    annotationProcessor(libs.androidx.room.compiler)
 //    testImplementation(libs.androidx.room.testing)
-
-    val room_version = "2.6.1"
-
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
     // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    // To use Kotlin Symbol Processing (KSP)
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation(libs.androidx.room.ktx)
 
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.kotlin.stdlib)
+
+    // Recyclerview
+    implementation(libs.androidx.recyclerview)
+    // For control over item selection of both touch and mouse driven selection
+    implementation(libs.androidx.recyclerview.selection)
 
 }
