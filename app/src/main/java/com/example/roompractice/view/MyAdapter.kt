@@ -1,5 +1,7 @@
 package com.example.roompractice.view
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +12,6 @@ import com.example.roompractice.model.Word
 
 class MyAdapter(val useCardView: Boolean) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-//    var useCardView: Boolean = false
     private var allWords: List<Word> = emptyList()
 
     fun setAllWords(allWords: List<Word>) {
@@ -26,9 +27,6 @@ class MyAdapter(val useCardView: Boolean) : RecyclerView.Adapter<MyAdapter.MyVie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layout = if (useCardView) R.layout.cell_card else R.layout.cell_normal
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_card, parent, false)
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_normal, parent, false)
         return MyViewHolder(view)
     }
 
@@ -37,6 +35,12 @@ class MyAdapter(val useCardView: Boolean) : RecyclerView.Adapter<MyAdapter.MyVie
         holder.textViewNumber.text = (position + 1).toString()
         holder.textViewEnglish.text = word.word
         holder.textViewChinese.text = word.chineseMeaning
+        holder.itemView.setOnClickListener {
+            val uri = Uri.parse("https://translate.google.com/?sl=en&tl=zh-TW&text=" + holder.textViewEnglish.text)
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setData(uri)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
