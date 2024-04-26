@@ -15,8 +15,6 @@ import com.example.roompractice.viewModel.WordViewModel
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private lateinit var viewModel: WordViewModel
-    private lateinit var myAdapter: MyAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,14 +25,24 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        viewModel = ViewModelProvider(this).get(WordViewModel::class.java)
-        myAdapter = MyAdapter()
+        val viewModel = ViewModelProvider(this).get(WordViewModel::class.java)
+        val myAdapter1 = MyAdapter(false)
+        val myAdapter2 = MyAdapter(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = myAdapter
+        binding.recyclerView.adapter = myAdapter1
+        binding.switch1.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.recyclerView.adapter = myAdapter2
+            } else {
+                binding.recyclerView.adapter = myAdapter1
+            }
+        }
 
         viewModel.allWordsLive.observe(this) {words ->
-            myAdapter.setAllWords(words)
-            myAdapter.notifyDataSetChanged()
+            myAdapter1.setAllWords(words)
+            myAdapter2.setAllWords(words)
+            myAdapter1.notifyDataSetChanged()
+            myAdapter2.notifyDataSetChanged()
         }
 
         binding.buttonInsert.setOnClickListener {
@@ -87,16 +95,9 @@ class MainActivity : AppCompatActivity() {
                 viewModel.insertWords(Word(word = englishNames[i], chineseMeaning = chineseTranslations[i]))
             }
         }
-        binding.buttonUpdate.setOnClickListener {
-            val word = Word(word = "Snoopy", chineseMeaning = "史努比").apply { id = 270 }
-            viewModel.updateWord(word)
-        }
+
         binding.buttonClear.setOnClickListener {
             viewModel.deleteAllWords()
-        }
-        binding.buttonDelete.setOnClickListener {
-            val word = Word(word = "Snoopy", chineseMeaning = "史努比").apply { id = 270 }
-            viewModel.deleteWord(word)
         }
     }
 }

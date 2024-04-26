@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.roompractice.R
 import com.example.roompractice.model.Word
 
-class MyAdapter() : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(val useCardView: Boolean) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
+//    var useCardView: Boolean = false
     private var allWords: List<Word> = emptyList()
 
     fun setAllWords(allWords: List<Word>) {
         this.allWords = allWords
+        notifyDataSetChanged()
     }
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewNumber: TextView = itemView.findViewById(R.id.textViewNumber)
@@ -22,7 +24,10 @@ class MyAdapter() : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_card, parent, false)
+        val layout = if (useCardView) R.layout.cell_card else R.layout.cell_normal
+        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
+
+//        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_card, parent, false)
 //        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_normal, parent, false)
         return MyViewHolder(view)
     }
