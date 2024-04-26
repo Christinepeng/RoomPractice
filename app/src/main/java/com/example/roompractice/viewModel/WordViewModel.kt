@@ -20,6 +20,11 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun insertWords(word: Word) {
+//        val wordWithDefault = if (word.chineseInvisible == null) {
+//            word.copy(chineseInvisible = false) // 或者你想要的預設值
+//        } else {
+//            word
+//        }
         viewModelScope.launch {
             repository.insertWords(word)
         }

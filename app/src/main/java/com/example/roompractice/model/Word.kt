@@ -15,4 +15,7 @@ data class Word(
 
     @ColumnInfo(name = "chinese_meaning")
     val chineseMeaning: String,
+
+    @ColumnInfo(name = "chinese_invisible")
+    var chineseInvisible: Boolean
 )

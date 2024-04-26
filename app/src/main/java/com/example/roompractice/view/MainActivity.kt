@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         val viewModel = ViewModelProvider(this).get(WordViewModel::class.java)
-        val myAdapter1 = MyAdapter(false)
-        val myAdapter2 = MyAdapter(true)
+        val myAdapter1 = MyAdapter(false, viewModel)
+        val myAdapter2 = MyAdapter(true, viewModel)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = myAdapter1
         binding.switch1.setOnCheckedChangeListener { _, isChecked ->
@@ -38,11 +38,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.allWordsLive.observe(this) {words ->
+        viewModel.allWordsLive.observe(this) { words ->
+            val temp = myAdapter1.itemCount
             myAdapter1.setAllWords(words)
             myAdapter2.setAllWords(words)
-            myAdapter1.notifyDataSetChanged()
-            myAdapter2.notifyDataSetChanged()
+
+            if (temp != words.size) {
+                myAdapter1.notifyDataSetChanged()
+                myAdapter2.notifyDataSetChanged()
+            }
         }
 
         binding.buttonInsert.setOnClickListener {
@@ -92,7 +96,13 @@ class MainActivity : AppCompatActivity() {
                 "尤多拉"
             )
             for (i in 0..englishNames.size - 1) {
-                viewModel.insertWords(Word(word = englishNames[i], chineseMeaning = chineseTranslations[i]))
+                viewModel.insertWords(
+                    Word(
+                        word = englishNames[i],
+                        chineseMeaning = chineseTranslations[i],
+                        chineseInvisible = false
+                    )
+                )
             }
         }
 
